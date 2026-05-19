@@ -84,13 +84,11 @@ copy-fail-challenge/
 
 commit 1 12:05
 ![alt text](image.png)
-{
-  echo "=== HITO 1: KERNEL VULNERABLE CONFIRMADO ==="
-  echo "Fecha: $(dat15/5/2026)"
-  echo "Hostname: $(Pamela Toapanta)"
-  echo "Kernel: $(uname -r)"6.12.0
-  echo "Identidad: $(id)"uid=1001(student) gid=1001(student) groups=1001(student)
-  echo "Modulos AF_ALG:"
-  cat /proc/modules 2>/dev/null | grep -i alg || echo "(kernel compilado sin modulos dinamicos - modulos integrados estaticamente)"
-  echo "algif_aead: integrado estaticamente en el kernel"
-} > /tmp/hito1.txt && cat /tmp/hito1.txt
+=== HITO 1: KERNEL VULNERABLE CONFIRMADO ===
+Fecha: Tue May 19 01:37:53 UTC 2026
+Hostname: copy-fail-Pamela-Toapanta
+Kernel: 6.12.0
+Identidad: uid=1001(student) gid=1001(student) groups=1001(student)
+Módulos AF_ALG:
+(no encontrado con lsmod)
+[student@copy-fail ~]$ 
