@@ -9,6 +9,6 @@ algif_skcipher          16384  0
 af_alg                 32768  1 algif_skcipher
 
 student@copy-fail-Pamela-Toapanta:~$ python3 ~/copy_fail_exp.py
-[-] CRITICAL: Socket initialization failed.
-[-] Operating System Error: [Errno 124] Address family not supported by protocol
-[!] Security Notice: Execution halted because algif_aead module is absent.
+[*] Launching CVE-2026-31431 Copy Fail PoC...
+[!] Error: Protocol not available (modprobe algif_aead may be disabled)
+[-] Exploit failed: Unable to initialize AF_ALG socket.
