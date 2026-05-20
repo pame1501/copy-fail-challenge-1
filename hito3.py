@@ -33,4 +33,4 @@ os.makedirs(os.path.dirname(ruta_archivo), exist_ok=True)
 with open(ruta_archivo, "w", encoding="utf-8") as f:
     f.write(contenido_hito3_puro)
 
-print("¡Estructura de texto generada correctamente!")
+print(f"¡Archivo inyectado con las frases secretas para copy-fail-{id_16}!")
