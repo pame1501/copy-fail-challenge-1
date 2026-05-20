@@ -1,0 +1,14 @@
+student@copy-fail-Pamela-Toapanta:~$ lsmod | grep algif
+algif_aead             20480  0
+algif_skcipher          16384  0
+af_alg                 32768  2 algif_aead,algif_skcipher
+
+student@copy-fail-Pamela-Toapanta:~$ sudo rmmod algif_aead
+student@copy-fail-Pamela-Toapanta:~$ lsmod | grep algif
+algif_skcipher          16384  0
+af_alg                 32768  1 algif_skcipher
+
+student@copy-fail-Pamela-Toapanta:~$ python3 ~/copy_fail_exp.py
+[-] CRITICAL: Socket initialization failed.
+[-] Operating System Error: [Errno 124] Address family not supported by protocol
+[!] Security Notice: Execution halted because algif_aead module is absent.
