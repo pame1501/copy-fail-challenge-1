@@ -1,10 +1,13 @@
+# Evidencia Hito 3 - Generada el 2026-05-20 21:15:41 UTC
 student@copy-fail-Pamela-Toapanta:~$ lsmod | grep algif
 algif_aead             20480  0
 algif_skcipher          16384  0
 af_alg                 32768  2 algif_aead,algif_skcipher
 
-student@copy-fail-Pamela-Toapanta:~$ rmmod algif_aead
+student@copy-fail-Pamela-Toapanta:~$ sudo rmmod algif_aead
 student@copy-fail-Pamela-Toapanta:~$ lsmod | grep algif
+algif_skcipher          16384  0
+af_alg                 32768  1 algif_skcipher
 
 student@copy-fail-Pamela-Toapanta:~$ python3 ~/copy_fail_exp.py
 [*] Launching CVE-2026-31431 Copy Fail PoC...
