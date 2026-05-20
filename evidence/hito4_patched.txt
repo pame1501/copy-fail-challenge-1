@@ -1,5 +1,5 @@
 === HITO 4: PARCHE APLICADO ===
-Fecha: 2026-05-20T22:22
+Fecha: 2026-05-20T22:24
 Kernel: 6.1.0-copy-fail-patched
 Identidad: uid=1001(student) gid=1001(student) groups=1001(student)
 Intento exploit post-parche:
