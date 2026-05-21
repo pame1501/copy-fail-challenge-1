@@ -76,7 +76,7 @@ echo -e "${CYAN}[4/4] Reconstruyendo initramfs con kernel parcheado...${NC}"
 cd /workspaces/copy-fail-challenge
 BZIMAGE_BACKUP="$BUILD_DIR/bzImage_vuln"
 cp "$BUILD_DIR/bzImage_patched" "$BUILD_DIR/bzImage_vuln"
-bash scripts/02_build_rootfs.sh
+bash /workspaces/copy-fail-challenge-1/scripts/02_build_rootfs.sh
 cp "$BUILD_DIR/bzImage_vuln" "$BUILD_DIR/bzImage_patched"
 mv "$BZIMAGE_BACKUP" "$BUILD_DIR/bzImage_vuln"
 

